@@ -13,10 +13,10 @@ El proceso de ventas comerciales de Riwi Supply: pedido → factura → pago.
 La emisión de facturas de venta, con sus productos, cantidades y método de pago.
 
 **¿Qué actores participan?**  
-Cliente, "asesor comercial" y sucursal.
+Cliente, "asesor comercial", sucursal de la empresa que requiere el producto y el representante de la empresa.
 
 **¿Qué información se repite?**  
-Los datos del cliente, asesor y las sucursal se duplican en cada línea de producto de una misma factura.
+Los datos del cliente, asesor, las sucursal se duplican en cada línea de producto de una misma factura y uno que otro producto.
 
 **¿Qué problemas genera esta estructura?**  
 - **Actualización:** cambiar la ciudad de un cliente obliga a editar múltiples filas.  
