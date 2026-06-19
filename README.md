@@ -118,7 +118,3 @@ Factura ↔ Producto → resuelta con la tabla intermedia `DetalleFactura`.
 | id_cliente | → | nombre_cliente, ciudad_cliente |
 | id_sucursal | → | nombre_sucursal, ciudad_sucursal |
 | (numero_factura, id_producto) | → | cantidad, precio_unitario |
-
----
-
-*RIWI · Programa de Desarrollo de Software*
