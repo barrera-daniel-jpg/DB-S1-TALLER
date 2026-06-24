@@ -118,3 +118,87 @@ Factura ↔ Producto → resuelta con la tabla intermedia `DetalleFactura`.
 | id_cliente | → | nombre_cliente, ciudad_cliente |
 | id_sucursal | → | nombre_sucursal, ciudad_sucursal |
 | (numero_factura, id_producto) | → | cantidad, precio_unitario |
+--- 
+# Fase 5 · Revisión y Refinamiento del Modelo
+
+---
+
+## 1. ¿Atributos duplicados?
+
+`precio_unitario` aparece en **Producto** y en **DetalleFactura**. Esto es intencional:
+
+- En `Producto` → es el precio actual del artículo.
+- En `DetalleFactura` → es el precio que tenía cuando se hizo la venta.
+
+> Si el precio cambia mañana, la factura de hoy no se ve afectada. ✅
+
+---
+
+## 2. ¿Dependencias parciales?
+
+Ocurren cuando un atributo depende solo de *una parte* de la clave, no de toda.
+
+En `DetalleFactura` la clave es `(numero_factura + id_producto)`:
+
+| Atributo | ¿Depende de los dos? |
+|---|:---:|
+| cantidad | ✅ |
+| precio_unitario | ✅ |
+
+No hay dependencias parciales. ✅
+
+---
+
+## 3. ¿Dependencias transitivas?
+
+Ocurren cuando un dato depende de otro que a su vez depende de la clave.
+
+**Ejemplo revisado — Factura:**
+- `numero_factura` → `id_cliente` → `nombre_cliente`
+- Pero `nombre_cliente` vive en la tabla `Cliente`, no en `Factura`.
+- La factura solo guarda la FK `id_cliente`. ✅
+
+**Ejemplo revisado — Producto:**
+- `id_producto` → `id_categoria` → `nombre_categoria`
+- Pero `nombre_categoria` vive en `Categoria`, no en `Producto`. ✅
+
+No hay dependencias transitivas. El modelo ya las resolvió al separar las entidades. ✅
+
+---
+
+## 4. ¿Todas las entidades tienen sentido?
+
+| Entidad | ¿Para qué sirve? |
+|---|---|
+| Cliente | La empresa que compra |
+| AsesorComercial | El empleado que atiende la venta |
+| Sucursal | La sede desde donde se opera |
+| Categoria | Agrupa los productos |
+| Producto | El artículo que se vende |
+| Factura | El documento de la transacción |
+| DetalleFactura | Cada producto dentro de una factura |
+
+Todas representan conceptos reales del negocio. ✅
+
+**Ajuste aplicado:** `AsesorComercial` solo tenía `id_asesor`. Se agregaron `nombre_asesor` e `id_sucursal` para que sea útil en consultas y reportes.
+
+---
+
+## 5. ¿Las relaciones están bien?
+
+| Relación | Tipo | ¿Tiene sentido? |
+|---|:---:|---|
+| Cliente → Factura | 1:N | Un cliente puede tener muchas facturas ✅ |
+| AsesorComercial → Factura | 1:N | Un asesor gestiona muchas facturas ✅ |
+| Sucursal → Factura | 1:N | Una sucursal emite muchas facturas ✅ |
+| Categoria → Producto | 1:N | Una categoría agrupa muchos productos ✅ |
+| Factura → DetalleFactura | 1:N | Una factura tiene muchas líneas ✅ |
+| Producto → DetalleFactura | 1:N | Un producto aparece en muchos detalles ✅ |
+
+Todas las relaciones reflejan correctamente el proceso de negocio. ✅
+
+<img width="1746" height="872" alt="Untitled (1)" src="https://github.com/user-attachments/assets/c4684eb3-e5d6-4b73-9c6d-94ae4c572a3a" />
+
+
+---
+
